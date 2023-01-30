@@ -7,42 +7,24 @@ stopBtn.addEventListener('click', onClickDecorateBgr);
 let timerId = null;
 
 stopBtn.disabled = true;
-console.log(startBtn.disabled);
-console.log(stopBtn.disabled);
 
 function onClickDecorateBgr() {
   let currentBrgColor = getRandomHexColor();
   if (!startBtn.disabled) {
     timerId = setInterval(() => {
-      console.log('Start Decorate Bgr');
+      // console.log('Start Decorate Bgr');
       currentBrgColor = getRandomHexColor();
       document.body.style.backgroundColor = currentBrgColor;
     }, 1000);
       startBtn.disabled = true;
       stopBtn.disabled = false;
   } else {
-    console.log('Stop Decorate Bg');
+    // console.log('Stop Decorate Bg');
       clearInterval(timerId);
       startBtn.disabled = false;
       stopBtn.disabled = true;
   }
 }
-
-// document.body.style.backgroundColor = getRandomHexColor();
-
-// function onClickStartDecorateBgr() {
-//   let currentBrgColor = getRandomHexColor();
-//   timerId = setInterval(() => {
-//     console.log('Start Decorate Bgr');
-//     currentBrgColor = getRandomHexColor();
-//     document.body.style.backgroundColor = currentBrgColor;
-//   }, 1000);
-// }
-
-// function onClickStopDecorateBgr() {
-//   console.log('Stop Decorate Bg');
-//   clearInterval(timerId);
-// }
 
 function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
