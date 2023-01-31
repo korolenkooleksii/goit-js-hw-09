@@ -10,13 +10,39 @@ const inputDate = document.getElementById('datetime-picker');
 const startTimerBtn = document.querySelector('[data-start]');
 
 startTimerBtn.disabled = true;
-let timeStartSaleInUnix = null;
 
 // startTimerBtn.addEventListener('click', () => {});
-// inputDate.addEventListener('focus', inputTimeForStartSale);
+
 
 const timer = {
-  timeStartSale: 100000000,
+  timeStartSale: null,
+  nowDate: 0,
+
+  options: {
+    enableTime: true,
+    time_24hr: true,
+    defaultDate: new Date(),
+    minuteIncrement: 1,
+    onClose(selectedDates) {
+      // console.log('Выбрали дату - ', selectedDates[0]);
+      this.timeStartSale = selectedDates[0].getTime();
+      console.log('timeStartSale после выбора даты - ', this.timeStartSale);
+      this.compareDate();
+    },
+  },
+
+  getTimeToday() {
+    let flp = flatpickr(inputDate, this.options);
+    this.nowDate = new Date(flp.selectedDates).getTime();
+    console.log('nowDate при запуске', this.nowDate);
+  },
+
+  compareDate() {
+    console.log('Дата текущая - ', this.nowDate);
+    console.log('Дата выбора  - ', this.timeStartSale);
+
+  },
+
   start() {
     const startTime = Date.now();
 
@@ -24,13 +50,38 @@ const timer = {
       const currentTime = Date.now();
       const deltaTime = this.timeStartSale - (currentTime - startTime);
       const time = convertMs(deltaTime);
-      
+
       updateTimerClock(time);
     }, 1000);
+  },
 
-    
+  inputDateStartSale() {
+    // const startTime = Date.now();
+    let dateStartSale = flatpickr(inputDate, this.options);
+    const timeStartSaleInUnix = new Date(dateStartSale.selectedDates).getTime();
+    // console.log(this.timeStartSale);
+    dateStartSale.onClose(selectedDates[0]);
+
+    // if (timeStartSaleInUnix < Date.now()) {
+    //   this.timeStartSale = timeStartSaleInUnix;
+    //   // startTimerBtn.disabled = false;
+    // } else {
+    //   alert('Please choose a date in the future');
+    // }
+
   },
 };
+
+timer.getTimeToday();
+console.log(timer.nowDate);
+// console.log(timer.nowDate);
+// console.log(timer.nowDate);
+
+// timer.inputDateStartSale()
+
+// inputDate.addEventListener('focus', () => {
+//   timer.inputDateStartSale();
+// });
 
 // timer.start();
 
@@ -39,29 +90,6 @@ function updateTimerClock({ days, hours, minutes, seconds }) {
   hoursEl.textContent = `${hours}`;
   minutesEl.textContent = `${minutes}`;
   secondsEl.textContent = `${seconds}`;
-}
-
-
-
-function inputTimeForStartSale() {
-  timeAAA();
-}
-
-function timeAAA() {
-  const options = {
-    enableTime: true,
-    time_24hr: true,
-    defaultDate: new Date(),
-    minuteIncrement: 1,
-    onClose(selectedDates) {
-      console.log(selectedDates[0]);
-    },
-  };
-  let dateStartSale = flatpickr(inputDate, options);
-  console.log(dateStartSale.selectedDates);
-  timeStartSaleInUnix = new Date(dateStartSale.selectedDates).getTime();
-  console.log('timeStartSaleInUnix', timeStartSaleInUnix);
-  return timeStartSaleInUnix;
 }
 
 function addLeadingZero(value) {
