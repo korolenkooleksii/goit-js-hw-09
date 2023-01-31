@@ -32,7 +32,7 @@ const timer = {
   getTimeToday() {
     let flp = flatpickr(inputDate, this.options);
     this.nowDate = new Date(flp.selectedDates).getTime();
-    console.log('текущая дата -     ', this.nowDate);
+    // console.log('текущая дата -     ', this.nowDate);
   },
 
   compareDate(time) {
@@ -45,20 +45,25 @@ const timer = {
       alert('Please choose a date in the future');
       return;
     }
-    console.log('Дата распродажи - ', this.timeStartSale);
+    // console.log('Дата распродажи - ', this.timeStartSale);
+    // console.log('Дата текущая    - ', this.nowDate);
   },
 
   start() {
     const startTime = Date.now();
-    console.log('timeStartSale - ', this.timeStartSale);
-    console.log('startTime - ', startTime);
+    // console.log('Дата распродажи - ', this.timeStartSale);
+    // console.log('startTime -       ', startTime);
 
     setInterval(() => {
       const currentTime = Date.now();
-      console.log('timer.timeStartSale -', this.timeStartSale);
-      console.log();
+
       const deltaTime = this.timeStartSale - (currentTime - startTime);
       const time = convertMs(deltaTime);
+      
+      console.log('Дата распродажи - ', this.timeStartSale);
+      console.log('startTime -       ', startTime);
+      console.log('deltaTime -       ', deltaTime);
+
 
       updateTimerClock(time);
     }, 1000);
@@ -79,13 +84,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
 startTimerBtn.addEventListener('click', () => {
   timer.start();
-})
+});
 
 function updateTimerClock({ days, hours, minutes, seconds }) {
   daysEl.textContent = `${days}`;
   hoursEl.textContent = `${hours}`;
   minutesEl.textContent = `${minutes}`;
   secondsEl.textContent = `${seconds}`;
+  console.log(`${days}:${hours}:${minutes}:${seconds}`);
 }
 
 function addLeadingZero(value) {
