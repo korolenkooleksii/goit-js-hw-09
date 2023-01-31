@@ -11,12 +11,9 @@ const startTimerBtn = document.querySelector('[data-start]');
 
 startTimerBtn.disabled = true;
 
-// startTimerBtn.addEventListener('click', () => {});
-
-
 const timer = {
   timeStartSale: null,
-  nowDate: 0,
+  nowDate: null,
 
   options: {
     enableTime: true,
@@ -25,29 +22,41 @@ const timer = {
     minuteIncrement: 1,
     onClose(selectedDates) {
       // console.log('Выбрали дату - ', selectedDates[0]);
-      this.timeStartSale = selectedDates[0].getTime();
-      console.log('timeStartSale после выбора даты - ', this.timeStartSale);
-      this.compareDate();
+      selectedTime = selectedDates[0].getTime();
+      // console.log('старт распродажи - ', this.timeStartSale);
+      // timer.compareDate.bind(timer);
+      timer.compareDate(selectedTime);
     },
   },
 
   getTimeToday() {
     let flp = flatpickr(inputDate, this.options);
     this.nowDate = new Date(flp.selectedDates).getTime();
-    console.log('nowDate при запуске', this.nowDate);
+    console.log('текущая дата -     ', this.nowDate);
   },
 
-  compareDate() {
-    console.log('Дата текущая - ', this.nowDate);
-    console.log('Дата выбора  - ', this.timeStartSale);
-
+  compareDate(time) {
+    // console.log('time - ', time);
+    if (time > timer.nowDate) {
+      // console.log('Скидки начнутся в будущем!!!');
+      this.timeStartSale = time;
+      startTimerBtn.disabled = false;
+    } else {
+      alert('Please choose a date in the future');
+      return;
+    }
+    console.log('Дата распродажи - ', this.timeStartSale);
   },
 
   start() {
     const startTime = Date.now();
+    console.log('timeStartSale - ', this.timeStartSale);
+    console.log('startTime - ', startTime);
 
     setInterval(() => {
       const currentTime = Date.now();
+      console.log('timer.timeStartSale -', this.timeStartSale);
+      console.log();
       const deltaTime = this.timeStartSale - (currentTime - startTime);
       const time = convertMs(deltaTime);
 
@@ -61,29 +70,16 @@ const timer = {
     const timeStartSaleInUnix = new Date(dateStartSale.selectedDates).getTime();
     // console.log(this.timeStartSale);
     dateStartSale.onClose(selectedDates[0]);
-
-    // if (timeStartSaleInUnix < Date.now()) {
-    //   this.timeStartSale = timeStartSaleInUnix;
-    //   // startTimerBtn.disabled = false;
-    // } else {
-    //   alert('Please choose a date in the future');
-    // }
-
   },
 };
 
-timer.getTimeToday();
-console.log(timer.nowDate);
-// console.log(timer.nowDate);
-// console.log(timer.nowDate);
+window.addEventListener('DOMContentLoaded', () => {
+  timer.getTimeToday();
+});
 
-// timer.inputDateStartSale()
-
-// inputDate.addEventListener('focus', () => {
-//   timer.inputDateStartSale();
-// });
-
-// timer.start();
+startTimerBtn.addEventListener('click', () => {
+  timer.start();
+})
 
 function updateTimerClock({ days, hours, minutes, seconds }) {
   daysEl.textContent = `${days}`;

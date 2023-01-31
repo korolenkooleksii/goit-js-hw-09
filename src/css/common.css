@@ -7,7 +7,7 @@ body {
     Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #fafafa;
+  background-color: rgb(239, 233, 233, 0.7);;
   color: #212121;
   line-height: 1.5;
 }
@@ -15,4 +15,27 @@ body {
 img {
   display: block;
   max-width: 100%;
+}
+
+.timer{
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.field{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80px;
+  outline: solid 1px rgb(228, 214, 214);
+  /* background-color: rgb(239, 233, 233, 0.7); */
+}
+.value{
+  font-size: 48px;
+  font-weight: 600;
+}
+
+.label{
+  font-size: 22px;
+  font-weight: 400;
 }
