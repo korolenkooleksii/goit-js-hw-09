@@ -1,5 +1,6 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import Notiflix from 'notiflix';
 
 const daysEl = document.querySelector('[data-days]');
 const hoursEl = document.querySelector('[data-hours]');
@@ -34,7 +35,8 @@ function compareDate(time) {
     dateStartSale = time;
     startTimerBtn.disabled = false;
   } else {
-    alert('Please choose a date in the future');
+    Notiflix.Notify.failure('Please choose a date in the future');
+
     return;
   }
 }
@@ -56,7 +58,7 @@ function updateTimerClock({ days, hours, minutes, seconds }) {
   hoursEl.textContent = `${hours}`;
   minutesEl.textContent = `${minutes}`;
   secondsEl.textContent = `${seconds}`;
-  console.log(`${days}:${hours}:${minutes}:${seconds}`);
+  // console.log(`${days}:${hours}:${minutes}:${seconds}`);
 }
 
 function addLeadingZero(value) {
