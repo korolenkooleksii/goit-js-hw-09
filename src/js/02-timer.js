@@ -9,82 +9,47 @@ const secondsEl = document.querySelector('[data-seconds]');
 const inputDate = document.getElementById('datetime-picker');
 const startTimerBtn = document.querySelector('[data-start]');
 
+startTimerBtn.addEventListener('click', startTimerForSale);
+
 startTimerBtn.disabled = true;
 
-const timer = {
-  timeStartSale: null,
-  nowDate: null,
+let dateStartSale = null;
 
-  options: {
-    enableTime: true,
-    time_24hr: true,
-    defaultDate: new Date(),
-    minuteIncrement: 1,
-    onClose(selectedDates) {
-      // console.log('Выбрали дату - ', selectedDates[0]);
-      selectedTime = selectedDates[0].getTime();
-      // console.log('старт распродажи - ', this.timeStartSale);
-      // timer.compareDate.bind(timer);
-      timer.compareDate(selectedTime);
-    },
-  },
-
-  getTimeToday() {
-    let flp = flatpickr(inputDate, this.options);
-    this.nowDate = new Date(flp.selectedDates).getTime();
-    // console.log('текущая дата -     ', this.nowDate);
-  },
-
-  compareDate(time) {
-    // console.log('time - ', time);
-    if (time > timer.nowDate) {
-      // console.log('Скидки начнутся в будущем!!!');
-      this.timeStartSale = time;
-      startTimerBtn.disabled = false;
-    } else {
-      alert('Please choose a date in the future');
-      return;
-    }
-    // console.log('Дата распродажи - ', this.timeStartSale);
-    // console.log('Дата текущая    - ', this.nowDate);
-  },
-
-  start() {
-    const startTime = Date.now();
-    // console.log('Дата распродажи - ', this.timeStartSale);
-    // console.log('startTime -       ', startTime);
-
-    setInterval(() => {
-      const currentTime = Date.now();
-
-      const deltaTime = this.timeStartSale - (currentTime - startTime);
-      const time = convertMs(deltaTime);
-      
-      console.log('Дата распродажи - ', this.timeStartSale);
-      console.log('startTime -       ', startTime);
-      console.log('deltaTime -       ', deltaTime);
-
-
-      updateTimerClock(time);
-    }, 1000);
-  },
-
-  inputDateStartSale() {
-    // const startTime = Date.now();
-    let dateStartSale = flatpickr(inputDate, this.options);
-    const timeStartSaleInUnix = new Date(dateStartSale.selectedDates).getTime();
-    // console.log(this.timeStartSale);
-    dateStartSale.onClose(selectedDates[0]);
+const options = {
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
+  onClose(selectedDates) {
+    // console.log(selectedDates[0]);
+    selectedTime = selectedDates[0].getTime();
+    compareDate(selectedTime);
   },
 };
 
-window.addEventListener('DOMContentLoaded', () => {
-  timer.getTimeToday();
-});
+let flp = flatpickr(inputDate, options);
 
-startTimerBtn.addEventListener('click', () => {
-  timer.start();
-});
+function compareDate(time) {
+  if (time - Date.now() > 0) {
+    dateStartSale = time;
+    startTimerBtn.disabled = false;
+  } else {
+    alert('Please choose a date in the future');
+    return;
+  }
+}
+
+function countDownTimeToSale() {
+  const now = Date.now();
+  const deltaTime = dateStartSale - now;
+  const time = convertMs(deltaTime);
+
+  updateTimerClock(time);
+}
+
+function startTimerForSale() {
+  intervalId = setInterval(countDownTimeToSale, 1000);
+}
 
 function updateTimerClock({ days, hours, minutes, seconds }) {
   daysEl.textContent = `${days}`;
@@ -115,6 +80,5 @@ function convertMs(ms) {
   const seconds = addLeadingZero(
     Math.floor((((ms % day) % hour) % minute) / second)
   );
-
   return { days, hours, minutes, seconds };
 }
