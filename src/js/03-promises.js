@@ -15,64 +15,46 @@ let amount = null;
 // let position = 1;
 
 function setOptions() {
-  console.log('Что-то там выбираем');
   delay = +inputDelay.value;
   step = +inputStep.value;
   amount = +inputAmount.value;
 }
 
 function createPromise(position, delay) {
-  const promise = new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const shouldResolve = Math.random() > 0.3;
 
     setTimeout(() => {
       if (shouldResolve) {
         // Fulfill
-        resolve('Success!, состояние - fulfilled');
+        resolve({ position, delay });
       } else {
         // Reject;
-        reject('Error, состояние - rejected');
+        reject({ position, delay });
       }
     }, delay);
   });
-
-  return promise;
-  console.log('createPromise  promise', promise);
 }
 
 function startCraetPromise() {
   for (let i = 1; i <= amount; i += 1) {
     createPromise(i, delay)
-      .then(resolve => {
-        console.log(resolve);
-        console.log('Это успех');
+      .then(({ position, delay }) => {
+        Notiflix.Notify.success(
+          `✅ Fulfilled promise ${position} in ${delay}ms`
+        );
       })
-      .catch(reject => {
-        console.log(reject);
-        console.log('Все пропало');
+      .catch(({ position, delay }) => {
+        Notiflix.Notify.failure(
+          `❌ Rejected promise ${position} in ${delay}ms`
+        );
       });
-
-    // console.log(i);
-    // console.log(delay, step, amount);
-
     delay += step;
   }
 }
-
-// const p = createPromise(1, 1000);
-
-// p.then(resolve => {
-//   console.log(resolve);
-//   console.log('Это успех');
-// }).catch(reject => {
-//   console.log(reject);
-//   console.log('Все пропало');
-// });
 
 function submitForCreatePromise(e) {
   e.preventDefault();
 
   startCraetPromise();
-
-  e.currentTarget.reset();
 }
