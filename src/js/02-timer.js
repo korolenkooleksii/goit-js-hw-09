@@ -47,9 +47,9 @@ function countDownTimeToSale() {
   if (deltaTime <= 0) {
     clearInterval(intervalId);
     Notiflix.Notify.success('Sales start');
+    console.log('После остановки intervalId - ', intervalId);
     intervalId = null;
     console.log(intervalId);
-    return;
   } else {
     const time = convertMs(deltaTime);
 
@@ -58,12 +58,12 @@ function countDownTimeToSale() {
 }
 
 // function stopTimerForSale() {
-  
+
 // }
 
 function startTimerForSale() {
-  intervalId = setInterval(countDownTimeToSale, 1000);
   startTimerBtn.disabled = true;
+  intervalId = setInterval(countDownTimeToSale, 1000);
 }
 
 function updateTimerClock({ days, hours, minutes, seconds }) {
