@@ -22,16 +22,16 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    // console.log(selectedDates[0]);
-    selectedTime = selectedDates[0].getTime();
-    compareDate(selectedTime);
+    console.log(selectedDates[0]);
+    // selectedTime = selectedDates[0].getTime();
+    compareDate(selectedDates[0]);
   },
 };
 
 let flp = flatpickr(inputDate, options);
 
 function compareDate(time) {
-  if (time - Date.now() > 0) {
+  if (time - new Date() > 0) {
     dateStartSale = time;
     startTimerBtn.disabled = false;
     Notiflix.Notify.success('Press the start button to start the timer');
@@ -42,6 +42,20 @@ function compareDate(time) {
     return;
   }
 }
+
+// function compareDate(time) {
+
+//   if (time - Date.now() > 0) {
+//     dateStartSale = time;
+//     startTimerBtn.disabled = false;
+//     Notiflix.Notify.success('Press the start button to start the timer');
+//     countDownTimeToSale(dateStartSale);
+//   } else {
+//     Notiflix.Notify.failure('Please choose a date in the future');
+
+//     return;
+//   }
+// }
 
 function countDownTimeToSale() {
   const deltaTime = dateStartSale - Date.now();
