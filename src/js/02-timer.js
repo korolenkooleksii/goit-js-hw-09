@@ -22,10 +22,6 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    console.log('выбрали время - ', selectedDates[0]);
-
-    console.log('Сегодняшняя дата - ', options.defaultDate);
-
     if (selectedDates[0] > options.defaultDate) {
       dateStartSale = selectedDates[0].getTime();
       startTimerBtn.disabled = false;
@@ -46,15 +42,13 @@ function countDownTimeToSale() {
 
   if (deltaTime <= 0) {
     clearInterval(intervalId);
+    console.log('Очищаем и итервал');
     Notiflix.Notify.success('Sales start');
-    console.log('После остановки intervalId - ', intervalId);
-    intervalId = null;
-    console.log(intervalId);
-  } else {
-    const time = convertMs(deltaTime);
-
-    updateTimerClock(time);
+    // console.log('После остановки intervalId - ', intervalId);
+    return;
   }
+
+  updateTimerClock(convertMs(deltaTime));
 }
 
 // function stopTimerForSale() {
