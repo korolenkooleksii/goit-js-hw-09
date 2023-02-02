@@ -22,26 +22,38 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
-    // selectedTime = selectedDates[0].getTime();
-    compareDate(selectedDates[0]);
+    console.log('выбрали время - ', selectedDates[0]);
+
+    console.log('Сегодняшняя дата - ', options.defaultDate);
+
+    if (selectedDates[0] > options.defaultDate) {
+      dateStartSale = selectedDates[0].getTime();
+      startTimerBtn.disabled = false;
+      Notiflix.Notify.success('Press the start button to start the timer');
+      countDownTimeToSale(dateStartSale);
+    } else {
+      Notiflix.Notify.failure('Please choose a date in the future');
+
+      return;
+    }
+
   },
 };
 
 let flp = flatpickr(inputDate, options);
 
-function compareDate(time) {
-  if (time - new Date() > 0) {
-    dateStartSale = time;
-    startTimerBtn.disabled = false;
-    Notiflix.Notify.success('Press the start button to start the timer');
-    countDownTimeToSale(dateStartSale);
-  } else {
-    Notiflix.Notify.failure('Please choose a date in the future');
+// function compareDate(time) {
+//   if (time - new Date() > 0) {
+//     dateStartSale = time;
+//     startTimerBtn.disabled = false;
+//     Notiflix.Notify.success('Press the start button to start the timer');
+//     countDownTimeToSale(dateStartSale);
+//   } else {
+//     Notiflix.Notify.failure('Please choose a date in the future');
 
-    return;
-  }
-}
+//     return;
+//   }
+// }
 
 // function compareDate(time) {
 
