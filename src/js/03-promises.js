@@ -6,28 +6,25 @@ const inputStep = document.querySelector('input[name="step"]');
 const inputAmount = document.querySelector('input[name="amount"]');
 const button = document.querySelector('button[type="submit"]');
 
-form.addEventListener('submit', submitCreatePromise);
-form.addEventListener('change', setOutput);
+form.addEventListener('submit', submitForCreatePromise);
+form.addEventListener('change', setOptions);
 
 let delay = null;
 let step = null;
 let amount = null;
-let position = 1;
+// let position = 1;
 
-function setOutput() {
+function setOptions() {
   console.log('Что-то там выбираем');
-  delay = inputDelay.value;
-  console.log('setOutput  delay', delay);
-
-  console.log(inputDelay.value);
-  console.log(inputStep.value);
-  console.log(inputAmount.value);
+  delay = +inputDelay.value;
+  step = +inputStep.value;
+  amount = +inputAmount.value;
 }
 
 function createPromise(position, delay) {
-  const shouldResolve = Math.random() > 0.3;
-
   const promise = new Promise((resolve, reject) => {
+    const shouldResolve = Math.random() > 0.3;
+
     setTimeout(() => {
       if (shouldResolve) {
         // Fulfill
@@ -38,25 +35,44 @@ function createPromise(position, delay) {
       }
     }, delay);
   });
+
   return promise;
+  console.log('createPromise  promise', promise);
 }
 
-const p = createPromise(1, 1000);
+function startCraetPromise() {
+  for (let i = 1; i <= amount; i += 1) {
+    createPromise(i, delay)
+      .then(resolve => {
+        console.log(resolve);
+        console.log('Это успех');
+      })
+      .catch(reject => {
+        console.log(reject);
+        console.log('Все пропало');
+      });
 
-p.then(resolve => {
-  console.log(resolve);
-  console.log('Это успех');
-}).catch(reject => {
-  console.log(reject);
-  console.log('Все пропало');
-});
+    // console.log(i);
+    // console.log(delay, step, amount);
 
-// console.dir(p);
+    delay += step;
+  }
+}
 
-function submitCreatePromise(e) {
-  e.prevenDefault();
+// const p = createPromise(1, 1000);
 
-  const timerId = setTimeout(createPromise, delay);
+// p.then(resolve => {
+//   console.log(resolve);
+//   console.log('Это успех');
+// }).catch(reject => {
+//   console.log(reject);
+//   console.log('Все пропало');
+// });
+
+function submitForCreatePromise(e) {
+  e.preventDefault();
+
+  startCraetPromise();
 
   e.currentTarget.reset();
 }
