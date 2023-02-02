@@ -6,7 +6,6 @@ const daysEl = document.querySelector('[data-days]');
 const hoursEl = document.querySelector('[data-hours]');
 const minutesEl = document.querySelector('[data-minutes]');
 const secondsEl = document.querySelector('[data-seconds]');
-
 const inputDate = document.getElementById('datetime-picker');
 const startTimerBtn = document.querySelector('[data-start]');
 
@@ -15,6 +14,7 @@ startTimerBtn.addEventListener('click', startTimerForSale);
 startTimerBtn.disabled = true;
 
 let dateStartSale = null;
+let taimerId = null;
 
 const options = {
   enableTime: true,
@@ -41,23 +41,19 @@ function countDownTimeToSale() {
   const deltaTime = dateStartSale - Date.now();
 
   if (deltaTime <= 0) {
-    clearInterval(intervalId);
-    console.log('Очищаем и итервал');
+    clearInterval(taimerId);
+    // console.log('Очищаем итервал');
     Notiflix.Notify.success('Sales start');
-    // console.log('После остановки intervalId - ', intervalId);
+
     return;
   }
 
   updateTimerClock(convertMs(deltaTime));
 }
 
-// function stopTimerForSale() {
-
-// }
-
 function startTimerForSale() {
   startTimerBtn.disabled = true;
-  intervalId = setInterval(countDownTimeToSale, 1000);
+  taimerId = setInterval(countDownTimeToSale, 1000);
 }
 
 function updateTimerClock({ days, hours, minutes, seconds }) {
