@@ -36,38 +36,10 @@ const options = {
 
       return;
     }
-
   },
 };
 
 let flp = flatpickr(inputDate, options);
-
-// function compareDate(time) {
-//   if (time - new Date() > 0) {
-//     dateStartSale = time;
-//     startTimerBtn.disabled = false;
-//     Notiflix.Notify.success('Press the start button to start the timer');
-//     countDownTimeToSale(dateStartSale);
-//   } else {
-//     Notiflix.Notify.failure('Please choose a date in the future');
-
-//     return;
-//   }
-// }
-
-// function compareDate(time) {
-
-//   if (time - Date.now() > 0) {
-//     dateStartSale = time;
-//     startTimerBtn.disabled = false;
-//     Notiflix.Notify.success('Press the start button to start the timer');
-//     countDownTimeToSale(dateStartSale);
-//   } else {
-//     Notiflix.Notify.failure('Please choose a date in the future');
-
-//     return;
-//   }
-// }
 
 function countDownTimeToSale() {
   const deltaTime = dateStartSale - Date.now();
