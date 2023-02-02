@@ -45,9 +45,17 @@ function compareDate(time) {
 
 function countDownTimeToSale() {
   const deltaTime = dateStartSale - Date.now();
-  const time = convertMs(deltaTime);
 
-  updateTimerClock(time);
+  if (deltaTime <= 0) {
+    Notiflix.Notify.success('Sales start');
+    clearInterval(intervalId);
+
+    return;
+  } else {
+    const time = convertMs(deltaTime);
+
+    updateTimerClock(time);
+  }
 }
 
 function startTimerForSale() {
