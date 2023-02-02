@@ -34,6 +34,8 @@ function compareDate(time) {
   if (time - Date.now() > 0) {
     dateStartSale = time;
     startTimerBtn.disabled = false;
+    Notiflix.Notify.success('Press the start button to start the timer');
+    countDownTimeToSale(dateStartSale);
   } else {
     Notiflix.Notify.failure('Please choose a date in the future');
 
@@ -42,8 +44,7 @@ function compareDate(time) {
 }
 
 function countDownTimeToSale() {
-  const now = Date.now();
-  const deltaTime = dateStartSale - now;
+  const deltaTime = dateStartSale - Date.now();
   const time = convertMs(deltaTime);
 
   updateTimerClock(time);
