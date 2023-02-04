@@ -4,7 +4,6 @@ const form = document.querySelector('.form');
 const inputDelay = document.querySelector('input[name="delay"]');
 const inputStep = document.querySelector('input[name="step"]');
 const inputAmount = document.querySelector('input[name="amount"]');
-const button = document.querySelector('button[type="submit"]');
 
 form.addEventListener('submit', submitForCreatePromise);
 form.addEventListener('change', setOptions);
@@ -12,7 +11,6 @@ form.addEventListener('change', setOptions);
 let delay = null;
 let step = null;
 let amount = null;
-// let position = 1;
 
 function setOptions() {
   delay = +inputDelay.value;
